@@ -1,0 +1,28 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Plugin Zip
+        run: |
+          mkdir uoi-sso
+          rsync -av --progress . uoi-sso --exclude uoi-sso --exclude .git --exclude .github --exclude documentation --exclude .gitignore --exclude mkdocs.yml
+          zip -r uoi-sso-${{ github.ref_name }}.zip uoi-sso
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: uoi-sso-${{ github.ref_name }}.zip
+          generate_release_notes: true
