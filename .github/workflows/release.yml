@@ -18,7 +18,7 @@ jobs:
       - name: Build Plugin Zip
         run: |
           mkdir uoi-sso
-          rsync -av --progress . uoi-sso --exclude uoi-sso --exclude .git --exclude .github --exclude documentation --exclude .gitignore --exclude mkdocs.yml
+          rsync -av --progress . uoi-sso --exclude uoi-sso --exclude .git --exclude .github --exclude documentation --exclude .gitignore --exclude mkdocs.yml --exclude README.md --exclude README.el.md
           zip -r uoi-sso-${{ github.ref_name }}.zip uoi-sso
 
       - name: Create Release
