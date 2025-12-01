@@ -1,0 +1,103 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: UOI SSO 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-27 12:00+0000\n"
+"PO-Revision-Date: 2023-10-27 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: uoi-sso\n"
+
+#. Description of the plugin
+msgid "Single Sign-On for University of Ioannina using CAS."
+msgstr "Ενιαία Είσοδος (SSO) για το Πανεπιστήμιο Ιωαννίνων χρησιμοποιώντας CAS."
+
+#: admin/partials/uoi-sso-admin-display.php:5
+msgid "Plugin Status"
+msgstr "Κατάσταση Προσθέτου"
+
+#: admin/partials/uoi-sso-admin-display.php:7
+msgid "Version:"
+msgstr "Έκδοση:"
+
+#: admin/partials/uoi-sso-admin-display.php:8
+msgid "PHP Version:"
+msgstr "Έκδοση PHP:"
+
+#: admin/partials/uoi-sso-admin-display.php:9
+msgid "CAS Server:"
+msgstr "Διακομιστής CAS:"
+
+#: admin/partials/uoi-sso-admin-display.php:19
+msgid "CAS Server URL"
+msgstr "URL Διακομιστή CAS"
+
+#: admin/partials/uoi-sso-admin-display.php:23
+msgid "CAS Server Port"
+msgstr "Θύρα Διακομιστή CAS"
+
+#: admin/partials/uoi-sso-admin-display.php:27
+msgid "CAS Context"
+msgstr "Πλαίσιο CAS (Context)"
+
+#: public/partials/uoi-sso-public-display.php:3
+msgid "Sign in to UOI"
+msgstr "Σύνδεση στο Π.Ι."
+
+#: includes/class-uoi-sso-cas-provider.php:45
+msgid "Empty response from CAS server."
+msgstr "Κενή απάντηση από τον διακομιστή CAS."
+
+#: includes/class-uoi-sso-cas-provider.php:58
+msgid "CAS Authentication failed."
+msgstr "Η πιστοποίηση CAS απέτυχε."
+
+#: admin/partials/uoi-sso-admin-display.php:35
+msgid "Attribute Mapping"
+msgstr "Αντιστοίχιση Ιδιοτήτων"
+
+#: admin/partials/uoi-sso-admin-display.php:36
+msgid "Map CAS attributes to WordPress user fields. Change these if the SSO provider attributes change."
+msgstr "Αντιστοιχίστε τις ιδιότητες CAS στα πεδία χρηστών του WordPress. Αλλάξτε τα εάν αλλάξουν οι ιδιότητες του παρόχου SSO."
+
+#: admin/partials/uoi-sso-admin-display.php:39
+msgid "First Name Attribute"
+msgstr "Ιδιότητα Ονόματος"
+
+#: admin/partials/uoi-sso-admin-display.php:43
+msgid "Last Name Attribute"
+msgstr "Ιδιότητα Επωνύμου"
+
+#: admin/partials/uoi-sso-admin-display.php:47
+msgid "Email Attribute"
+msgstr "Ιδιότητα Email"
+
+#: admin/partials/uoi-sso-admin-display.php:54
+msgid "Role Mapping"
+msgstr "Αντιστοίχιση Ρόλων"
+
+#: admin/partials/uoi-sso-admin-display.php:55
+msgid "Map CAS role values to WordPress roles. Format: <code>cas_value:wp_role</code> (one per line)."
+msgstr "Αντιστοιχίστε τις τιμές ρόλων CAS σε ρόλους WordPress. Μορφή: <code>cas_value:wp_role</code> (ένα ανά γραμμή)."
+
+#: admin/partials/uoi-sso-admin-display.php:58
+msgid "Role Attribute"
+msgstr "Ιδιότητα Ρόλου"
+
+#: admin/partials/uoi-sso-admin-display.php:61
+msgid "The CAS attribute that contains the user role (e.g., eduPersonAffiliation)."
+msgstr "Η ιδιότητα CAS που περιέχει τον ρόλο του χρήστη (π.χ. eduPersonAffiliation)."
+
+#: admin/partials/uoi-sso-admin-display.php:65
+msgid "Mapping Rules"
+msgstr "Κανόνες Αντιστοίχισης"
+
+#: admin/partials/uoi-sso-admin-display.php:68
+msgid "Example:"
+msgstr "Παράδειγμα:"

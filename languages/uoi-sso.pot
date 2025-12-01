@@ -1,0 +1,59 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: UOI SSO 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-27 12:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: uoi-sso\n"
+
+#. Description of the plugin
+msgid "Single Sign-On for University of Ioannina using CAS."
+msgstr ""
+
+#: admin/partials/uoi-sso-admin-display.php:5
+msgid "Plugin Status"
+msgstr ""
+
+#: admin/partials/uoi-sso-admin-display.php:7
+msgid "Version:"
+msgstr ""
+
+#: admin/partials/uoi-sso-admin-display.php:8
+msgid "PHP Version:"
+msgstr ""
+
+#: admin/partials/uoi-sso-admin-display.php:9
+msgid "CAS Server:"
+msgstr ""
+
+#: admin/partials/uoi-sso-admin-display.php:19
+msgid "CAS Server URL"
+msgstr ""
+
+#: admin/partials/uoi-sso-admin-display.php:23
+msgid "CAS Server Port"
+msgstr ""
+
+#: admin/partials/uoi-sso-admin-display.php:27
+msgid "CAS Context"
+msgstr ""
+
+#: public/partials/uoi-sso-public-display.php:3
+msgid "Sign in to UOI"
+msgstr ""
+
+#: includes/class-uoi-sso-cas-provider.php:45
+msgid "Empty response from CAS server."
+msgstr ""
+
+#: includes/class-uoi-sso-cas-provider.php:58
+msgid "CAS Authentication failed."
+msgstr ""
