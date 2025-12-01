@@ -1,0 +1,61 @@
+site_name: UOI SSO WordPress Plugin
+site_url: https://vrallis.github.io/uoi-sso-wordpress/
+repo_url: https://github.com/vrallis/uoi-sso-wordpress
+repo_name: uoi-sso-wordpress
+docs_dir: src
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - navigation.expand
+    - navigation.sections
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: suffix
+      languages:
+        - locale: en
+          name: English
+          default: true
+        - locale: el
+          name: Ελληνικά
+
+extra:
+  alternate:
+    - name: English
+      link: /uoi-sso-wordpress/
+      lang: en
+    - name: Ελληνικά
+      link: /uoi-sso-wordpress/el/
+      lang: el
+
+nav:
+  - Home: index.md
+  - User Guide:
+    - Installation: user-guide/installation.md
+    - Configuration: user-guide/configuration.md
+    - Customization: user-guide/customization.md
+  - Developer Guide:
+    - Architecture: developer-guide/architecture.md
+    - Hooks & Filters: developer-guide/hooks.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
