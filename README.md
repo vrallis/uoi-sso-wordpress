@@ -1,5 +1,7 @@
 # UOI SSO WordPress Plugin
 
+[Διαβάστε στα Ελληνικά](README.el.md)
+
 The UOI SSO plugin enables user authentication on WordPress sites using the University of Ioannina's CAS (Central Authentication Service).
 
 ## Documentation
