@@ -19,7 +19,7 @@ Map data from the CAS response to WordPress user profile fields.
 *   **Email Attribute**: The CAS attribute for the user's email address. Default: `mail`.
 
 !!! tip "Finding Attributes"
-    If you are unsure of the attribute names, ask your CAS administrator for a list of released attributes or check your own profile data if available.
+    If you are unsure of the attribute names, ask your CAS administrator for a list of released attributes or check your own profile data at [sso.uoi.gr](https://sso.uoi.gr).
 
 ## Role Mapping
 
