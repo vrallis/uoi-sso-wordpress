@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: UOI SSO 1.0.0\n"
+"Project-Id-Version: UOI SSO 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-27 12:00+0000\n"
+"POT-Creation-Date: 2026-02-07 12:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -16,6 +16,10 @@ msgstr ""
 
 #. Description of the plugin
 msgid "Single Sign-On for University of Ioannina using CAS."
+msgstr ""
+
+#: admin/class-uoi-sso-admin.php:99
+msgid "CAS port must be between 1 and 65535. Reverted to 443."
 msgstr ""
 
 #: admin/partials/uoi-sso-admin-display.php:5
@@ -34,26 +38,119 @@ msgstr ""
 msgid "CAS Server:"
 msgstr ""
 
-#: admin/partials/uoi-sso-admin-display.php:19
+#: admin/partials/uoi-sso-admin-display.php:20
 msgid "CAS Server URL"
 msgstr ""
 
-#: admin/partials/uoi-sso-admin-display.php:23
+#: admin/partials/uoi-sso-admin-display.php:24
 msgid "CAS Server Port"
 msgstr ""
 
-#: admin/partials/uoi-sso-admin-display.php:27
+#: admin/partials/uoi-sso-admin-display.php:28
 msgid "CAS Context"
 msgstr ""
 
-#: public/partials/uoi-sso-public-display.php:3
-msgid "Sign in to UOI"
+#: admin/partials/uoi-sso-admin-display.php:35
+msgid "Attribute Mapping"
 msgstr ""
 
-#: includes/class-uoi-sso-cas-provider.php:45
+#: admin/partials/uoi-sso-admin-display.php:36
+msgid "Map CAS attributes to WordPress user fields. Change these if the SSO provider attributes change."
+msgstr ""
+
+#: admin/partials/uoi-sso-admin-display.php:39
+msgid "First Name Attribute"
+msgstr ""
+
+#: admin/partials/uoi-sso-admin-display.php:43
+msgid "Last Name Attribute"
+msgstr ""
+
+#: admin/partials/uoi-sso-admin-display.php:47
+msgid "Email Attribute"
+msgstr ""
+
+#: admin/partials/uoi-sso-admin-display.php:54
+msgid "Role Mapping"
+msgstr ""
+
+#. translators: %s: code example of the format
+#: admin/partials/uoi-sso-admin-display.php:59
+msgid "Map CAS role values to WordPress roles. Format: %s (one per line)."
+msgstr ""
+
+#: admin/partials/uoi-sso-admin-display.php:66
+msgid "Role Attribute"
+msgstr ""
+
+#: admin/partials/uoi-sso-admin-display.php:69
+msgid "The CAS attribute that contains the user role (e.g., eduPersonAffiliation)."
+msgstr ""
+
+#: admin/partials/uoi-sso-admin-display.php:73
+msgid "Mapping Rules"
+msgstr ""
+
+#: admin/partials/uoi-sso-admin-display.php:76
+msgid "Example:"
+msgstr ""
+
+#: includes/class-uoi-sso-cas-provider.php:54
+msgid "This SSO ticket has already been used."
+msgstr ""
+
+#: includes/class-uoi-sso-cas-provider.php:78
+#. translators: %d: HTTP status code
+msgid "CAS server returned HTTP %d."
+msgstr ""
+
+#: includes/class-uoi-sso-cas-provider.php:88
 msgid "Empty response from CAS server."
 msgstr ""
 
-#: includes/class-uoi-sso-cas-provider.php:58
-msgid "CAS Authentication failed."
+#: includes/class-uoi-sso-cas-provider.php:115
+msgid "Failed to parse CAS response XML."
+msgstr ""
+
+#. translators: %s: CAS failure code
+#: includes/class-uoi-sso-cas-provider.php:129
+msgid "CAS Authentication failed: %s"
+msgstr ""
+
+#: includes/class-uoi-sso-cas-provider.php:137
+msgid "CAS Authentication failed: unexpected response."
+msgstr ""
+
+#: includes/class-uoi-sso-cas-provider.php:144
+msgid "CAS response did not contain a username."
+msgstr ""
+
+#. translators: %1$s: CAS username, %2$s: email address
+#: includes/class-uoi-sso-cas-provider.php:242
+msgid "The email address %2$s is already associated with a different account. Please contact the administrator. (CAS user: %1$s)"
+msgstr ""
+
+#: public/class-uoi-sso-public.php:94
+msgid "Invalid or expired SSO state. Please try logging in again."
+msgstr ""
+
+#: public/class-uoi-sso-public.php:95
+#: public/class-uoi-sso-public.php:112
+msgid "SSO Error"
+msgstr ""
+
+#: public/class-uoi-sso-public.php:111
+msgid "Authentication failed. Please try again or contact the administrator."
+msgstr ""
+
+#: public/partials/uoi-sso-public-display.php:1
+msgid "Single Sign-On"
+msgstr ""
+
+#: public/partials/uoi-sso-public-display.php:3
+msgid "Sign in with your University of Ioannina account"
+msgstr ""
+
+#: public/partials/uoi-sso-public-display.php:4
+msgid "Sign in to UOI"
 msgstr ""

@@ -3,7 +3,7 @@
  * Plugin Name:       UOI SSO
  * Plugin URI:        https://dit.uoi.gr
  * Description:       Single Sign-On for University of Ioannina using CAS. Contact: vrallis@orailab.gr, contact@bill.gr
- * Version:           1.0.3
+ * Version:           1.0.4
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Author:            Vasileios Rallis
@@ -21,7 +21,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Current plugin version.
  */
-define( 'UOI_SSO_VERSION', '1.0.3' );
+define( 'UOI_SSO_VERSION', '1.0.4' );
 
 /**
  * Plugin filesystem path (with trailing slash).

@@ -6,8 +6,8 @@ After activating the plugin, navigate to **Settings > UOI SSO** to configure the
 
 These settings connect your WordPress site to the University's CAS server.
 
-*   **CAS Server URL**: The hostname of the CAS server. Default: `sso.uoi.gr`.
-*   **CAS Server Port**: The port number. Default: `443` (HTTPS).
+*   **CAS Server URL**: The hostname of the CAS server. Default: `sso.uoi.gr`. Must be a valid URL format.
+*   **CAS Server Port**: The port number. Default: `443` (HTTPS). Must be between 1 and 65535; invalid values are reverted to 443.
 *   **CAS Context**: The URI path to the CAS application. Default: `/cas`.
 
 ## Attribute Mapping
@@ -29,6 +29,7 @@ Control what role users are assigned when they log in.
 *   **Mapping Rules**: Define how CAS values map to WordPress roles.
     *   Format: `cas_value:wordpress_role`
     *   One rule per line.
+    *   Each rule is validated: the `wordpress_role` must be a role that exists in your WordPress installation (e.g., `subscriber`, `editor`, `author`, `administrator`). Invalid rules are silently discarded on save.
 
 **Example:**
 ```text

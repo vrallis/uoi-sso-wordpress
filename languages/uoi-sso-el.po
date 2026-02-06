@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: UOI SSO 1.0.0\n"
+"Project-Id-Version: UOI SSO 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-27 12:00+0000\n"
-"PO-Revision-Date: 2023-10-27 12:00+0000\n"
+"POT-Creation-Date: 2026-02-07 12:00+0000\n"
+"PO-Revision-Date: 2026-02-07 12:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: el\n"
@@ -17,6 +17,10 @@ msgstr ""
 #. Description of the plugin
 msgid "Single Sign-On for University of Ioannina using CAS."
 msgstr "Ενιαία Είσοδος (SSO) για το Πανεπιστήμιο Ιωαννίνων χρησιμοποιώντας CAS."
+
+#: admin/class-uoi-sso-admin.php:99
+msgid "CAS port must be between 1 and 65535. Reverted to 443."
+msgstr "Η θύρα CAS πρέπει να είναι μεταξύ 1 και 65535. Επαναφορά σε 443."
 
 #: admin/partials/uoi-sso-admin-display.php:5
 msgid "Plugin Status"
@@ -34,29 +38,17 @@ msgstr "Έκδοση PHP:"
 msgid "CAS Server:"
 msgstr "Διακομιστής CAS:"
 
-#: admin/partials/uoi-sso-admin-display.php:19
+#: admin/partials/uoi-sso-admin-display.php:20
 msgid "CAS Server URL"
 msgstr "URL Διακομιστή CAS"
 
-#: admin/partials/uoi-sso-admin-display.php:23
+#: admin/partials/uoi-sso-admin-display.php:24
 msgid "CAS Server Port"
 msgstr "Θύρα Διακομιστή CAS"
 
-#: admin/partials/uoi-sso-admin-display.php:27
+#: admin/partials/uoi-sso-admin-display.php:28
 msgid "CAS Context"
 msgstr "Πλαίσιο CAS (Context)"
-
-#: public/partials/uoi-sso-public-display.php:3
-msgid "Sign in to UOI"
-msgstr "Σύνδεση στο Π.Ι."
-
-#: includes/class-uoi-sso-cas-provider.php:45
-msgid "Empty response from CAS server."
-msgstr "Κενή απάντηση από τον διακομιστή CAS."
-
-#: includes/class-uoi-sso-cas-provider.php:58
-msgid "CAS Authentication failed."
-msgstr "Η πιστοποίηση CAS απέτυχε."
 
 #: admin/partials/uoi-sso-admin-display.php:35
 msgid "Attribute Mapping"
@@ -82,22 +74,83 @@ msgstr "Ιδιότητα Email"
 msgid "Role Mapping"
 msgstr "Αντιστοίχιση Ρόλων"
 
-#: admin/partials/uoi-sso-admin-display.php:55
-msgid "Map CAS role values to WordPress roles. Format: <code>cas_value:wp_role</code> (one per line)."
-msgstr "Αντιστοιχίστε τις τιμές ρόλων CAS σε ρόλους WordPress. Μορφή: <code>cas_value:wp_role</code> (ένα ανά γραμμή)."
+#. translators: %s: code example of the format
+#: admin/partials/uoi-sso-admin-display.php:59
+msgid "Map CAS role values to WordPress roles. Format: %s (one per line)."
+msgstr "Αντιστοιχίστε τις τιμές ρόλων CAS σε ρόλους WordPress. Μορφή: %s (ένα ανά γραμμή)."
 
-#: admin/partials/uoi-sso-admin-display.php:58
+#: admin/partials/uoi-sso-admin-display.php:66
 msgid "Role Attribute"
 msgstr "Ιδιότητα Ρόλου"
 
-#: admin/partials/uoi-sso-admin-display.php:61
+#: admin/partials/uoi-sso-admin-display.php:69
 msgid "The CAS attribute that contains the user role (e.g., eduPersonAffiliation)."
 msgstr "Η ιδιότητα CAS που περιέχει τον ρόλο του χρήστη (π.χ. eduPersonAffiliation)."
 
-#: admin/partials/uoi-sso-admin-display.php:65
+#: admin/partials/uoi-sso-admin-display.php:73
 msgid "Mapping Rules"
 msgstr "Κανόνες Αντιστοίχισης"
 
-#: admin/partials/uoi-sso-admin-display.php:68
+#: admin/partials/uoi-sso-admin-display.php:76
 msgid "Example:"
 msgstr "Παράδειγμα:"
+
+#: includes/class-uoi-sso-cas-provider.php:54
+msgid "This SSO ticket has already been used."
+msgstr "Αυτό το εισιτήριο SSO έχει ήδη χρησιμοποιηθεί."
+
+#. translators: %d: HTTP status code
+#: includes/class-uoi-sso-cas-provider.php:78
+msgid "CAS server returned HTTP %d."
+msgstr "Ο διακομιστής CAS επέστρεψε HTTP %d."
+
+#: includes/class-uoi-sso-cas-provider.php:88
+msgid "Empty response from CAS server."
+msgstr "Κενή απάντηση από τον διακομιστή CAS."
+
+#: includes/class-uoi-sso-cas-provider.php:115
+msgid "Failed to parse CAS response XML."
+msgstr "Αποτυχία ανάλυσης του XML απόκρισης CAS."
+
+#. translators: %s: CAS failure code
+#: includes/class-uoi-sso-cas-provider.php:129
+msgid "CAS Authentication failed: %s"
+msgstr "Η πιστοποίηση CAS απέτυχε: %s"
+
+#: includes/class-uoi-sso-cas-provider.php:137
+msgid "CAS Authentication failed: unexpected response."
+msgstr "Η πιστοποίηση CAS απέτυχε: μη αναμενόμενη απόκριση."
+
+#: includes/class-uoi-sso-cas-provider.php:144
+msgid "CAS response did not contain a username."
+msgstr "Η απόκριση CAS δεν περιείχε όνομα χρήστη."
+
+#. translators: %1$s: CAS username, %2$s: email address
+#: includes/class-uoi-sso-cas-provider.php:242
+msgid "The email address %2$s is already associated with a different account. Please contact the administrator. (CAS user: %1$s)"
+msgstr "Η διεύθυνση email %2$s σχετίζεται ήδη με διαφορετικό λογαριασμό. Επικοινωνήστε με τον διαχειριστή. (Χρήστης CAS: %1$s)"
+
+#: public/class-uoi-sso-public.php:94
+msgid "Invalid or expired SSO state. Please try logging in again."
+msgstr "Μη έγκυρη ή ληγμένη κατάσταση SSO. Δοκιμάστε να συνδεθείτε ξανά."
+
+#: public/class-uoi-sso-public.php:95
+#: public/class-uoi-sso-public.php:112
+msgid "SSO Error"
+msgstr "Σφάλμα SSO"
+
+#: public/class-uoi-sso-public.php:111
+msgid "Authentication failed. Please try again or contact the administrator."
+msgstr "Η πιστοποίηση απέτυχε. Δοκιμάστε ξανά ή επικοινωνήστε με τον διαχειριστή."
+
+#: public/partials/uoi-sso-public-display.php:1
+msgid "Single Sign-On"
+msgstr "Ενιαία Είσοδος"
+
+#: public/partials/uoi-sso-public-display.php:3
+msgid "Sign in with your University of Ioannina account"
+msgstr "Σύνδεση με τον λογαριασμό σας στο Πανεπιστήμιο Ιωαννίνων"
+
+#: public/partials/uoi-sso-public-display.php:4
+msgid "Sign in to UOI"
+msgstr "Σύνδεση στο Π.Ι."

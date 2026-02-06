@@ -43,3 +43,13 @@
 
 !!! note "Settings Preservation"
     Your settings are stored in the database and **will be preserved** during updates.
+
+## Uninstalling
+
+When you **delete** the plugin (not just deactivate), all plugin data is automatically removed from the database:
+
+*   All `uoi_sso_*` options (CAS URL, port, context, attribute mappings, role mappings).
+*   All `uoi_sso_*` transients (state tokens, ticket replay cache).
+
+!!! warning "Uninstall is permanent"
+    Deactivating the plugin preserves your settings. Deleting it removes everything. Export your settings before uninstalling if you plan to reinstall later.
