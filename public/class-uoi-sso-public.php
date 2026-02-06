@@ -16,6 +16,25 @@ class Uoi_Sso_Public {
 		$this->auth_provider = new Uoi_Sso_Cas_Provider();
 	}
 
+	/**
+	 * Enqueue public-facing styles and scripts on the login page.
+	 */
+	public function enqueue_login_assets() {
+		wp_enqueue_style(
+			$this->plugin_name,
+			plugin_dir_url( dirname( __FILE__ ) ) . 'public/css/uoi-sso-public.css',
+			array(),
+			$this->version
+		);
+		wp_enqueue_script(
+			$this->plugin_name,
+			plugin_dir_url( dirname( __FILE__ ) ) . 'public/js/uoi-sso-public.js',
+			array(),
+			$this->version,
+			true
+		);
+	}
+
 	public function display_sso_button() {
 		// Generate a CSRF state token and store it in a transient (10 min expiry)
 		$state = wp_generate_password( 32, false );

@@ -47,10 +47,24 @@ class Uoi_Sso_Cas_Provider implements Uoi_Sso_Provider_Interface {
 
 		$validation_url = "https://{$this->cas_url}:{$this->cas_port}{$this->cas_context}/serviceValidate?service=" . urlencode( $service_url ) . "&ticket=" . $ticket;
 
-		$response = wp_remote_get( $validation_url );
+		$response = wp_remote_get( $validation_url, array(
+			'timeout'   => 15,
+			'sslverify' => true,
+		) );
 
 		if ( is_wp_error( $response ) ) {
 			return $response;
+		}
+
+		$status_code = wp_remote_retrieve_response_code( $response );
+		if ( $status_code !== 200 ) {
+			return new WP_Error(
+				'cas_http_error',
+				sprintf(
+					__( 'CAS server returned HTTP %d.', 'uoi-sso' ),
+					$status_code
+				)
+			);
 		}
 
 		$body = wp_remote_retrieve_body( $response );
@@ -171,48 +185,62 @@ class Uoi_Sso_Cas_Provider implements Uoi_Sso_Provider_Interface {
 		// Try to find user by login
 		$user = get_user_by( 'login', $username );
 
-		if ( ! $user ) {
-			// Try to find by email
-			if ( is_email( $email ) ) {
-				$user = get_user_by( 'email', $email );
-			}
-		}
-
-		if ( ! $user ) {
-			// Auto-provisioning
-			$userdata = array(
-				'user_login' => $username,
-				'user_pass'  => wp_generate_password(),
-				'user_email' => $email,
-				'first_name' => $first_name,
-				'last_name'  => $last_name,
-				'role'       => $role
-			);
-
-			$user_id = wp_insert_user( $userdata );
-
-			if ( is_wp_error( $user_id ) ) {
-				return $user_id;
-			}
-
-			$user = get_user_by( 'id', $user_id );
-		} else {
-			// Update existing user information (Sync)
+		if ( $user ) {
+			// User found by username — this is the authoritative match for SSO
 			$userdata = array(
 				'ID'         => $user->ID,
 				'first_name' => $first_name,
 				'last_name'  => $last_name,
-				// Optional: Update email if changed? Maybe safer not to.
 			);
-			
-			// Only update role if it's not an admin (safety)
+
+			// Only update role if it's not an admin
 			if ( ! in_array( 'administrator', $user->roles ) ) {
 				$userdata['role'] = $role;
 			}
 
+			// Only update email if no other user owns it
+			if ( is_email( $email ) && $email !== $user->user_email ) {
+				$email_owner = get_user_by( 'email', $email );
+				if ( ! $email_owner || $email_owner->ID === $user->ID ) {
+					$userdata['user_email'] = $email;
+				}
+			}
+
 			wp_update_user( $userdata );
+			return $user;
 		}
 
-		return $user;
+		if ( is_email( $email ) ) {
+			$email_owner = get_user_by( 'email', $email );
+			if ( $email_owner ) {
+				// Email belongs to a different WP user
+				return new WP_Error(
+					'cas_email_conflict',
+					sprintf(
+						__( 'The email address %2$s is already associated with a different account. Please contact the administrator. (CAS user: %1$s)', 'uoi-sso' ),
+						$username,
+						$email
+					)
+				);
+			}
+		}
+
+		// Auto-provisioning: create new user
+		$userdata = array(
+			'user_login' => $username,
+			'user_pass'  => wp_generate_password(),
+			'user_email' => $email,
+			'first_name' => $first_name,
+			'last_name'  => $last_name,
+			'role'       => $role,
+		);
+
+		$user_id = wp_insert_user( $userdata );
+
+		if ( is_wp_error( $user_id ) ) {
+			return $user_id;
+		}
+
+		return get_user_by( 'id', $user_id );
 	}
 }

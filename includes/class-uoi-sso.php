@@ -49,6 +49,7 @@ class Uoi_Sso {
 
 	private function define_public_hooks() {
 		$plugin_public = new Uoi_Sso_Public( $this->get_plugin_name(), $this->get_version() );
+		$this->loader->add_action( 'login_enqueue_scripts', $plugin_public, 'enqueue_login_assets' );
 		$this->loader->add_action( 'login_form', $plugin_public, 'display_sso_button' );
 		$this->loader->add_action( 'init', $plugin_public, 'handle_sso_response' );
 		$this->loader->add_action( 'wp_logout', $plugin_public, 'handle_sso_logout' );
