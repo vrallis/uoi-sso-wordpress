@@ -24,12 +24,24 @@ class Uoi_Sso_Cas_Provider implements Uoi_Sso_Provider_Interface {
 		return isset( $_GET['ticket'] );
 	}
 
+	public function get_logout_url( $service_url ) {
+		$base = "https://{$this->cas_url}:{$this->cas_port}{$this->cas_context}";
+		return $base . '/logout?service=' . urlencode( $service_url );
+	}
+
 	public function authenticate() {
 		if ( ! $this->is_callback() ) {
 			return null;
 		}
 
 		$ticket = sanitize_text_field( $_GET['ticket'] );
+
+		$ticket_hash = 'uoi_sso_ticket_' . hash( 'sha256', $ticket );
+		if ( false !== get_transient( $ticket_hash ) ) {
+			return new WP_Error( 'cas_ticket_replayed', __( 'This SSO ticket has already been used.', 'uoi-sso' ) );
+		}
+		set_transient( $ticket_hash, 1, 5 * MINUTE_IN_SECONDS );
+
 		// Clean the service URL to remove the ticket parameter for validation
 		$service_url = $this->get_current_url_without_ticket();
 

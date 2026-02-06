@@ -33,6 +33,18 @@ class Uoi_Sso_Public {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Handle WordPress logout by also logging out of the CAS server.
+	 * Redirects to the CAS logout endpoint so the SSO session is terminated.
+	 */
+	public function handle_sso_logout() {
+		$redirect_url = wp_login_url();
+		$logout_url = $this->auth_provider->get_logout_url( $redirect_url );
+
+		wp_redirect( $logout_url );
+		exit;
+	}
+
 	public function handle_sso_response() {
 		if ( is_user_logged_in() ) {
 			return;

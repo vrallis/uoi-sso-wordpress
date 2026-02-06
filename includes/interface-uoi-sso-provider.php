@@ -26,4 +26,12 @@ interface Uoi_Sso_Provider_Interface {
 	 * @return bool
 	 */
 	public function is_callback();
+
+	/**
+	 * Get the URL to log the user out of the SSO provider.
+	 *
+	 * @param string $service_url The URL to redirect back to after logout.
+	 * @return string
+	 */
+	public function get_logout_url( $service_url );
 }

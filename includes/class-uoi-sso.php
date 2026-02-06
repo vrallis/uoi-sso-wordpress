@@ -51,6 +51,7 @@ class Uoi_Sso {
 		$plugin_public = new Uoi_Sso_Public( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'login_form', $plugin_public, 'display_sso_button' );
 		$this->loader->add_action( 'init', $plugin_public, 'handle_sso_response' );
+		$this->loader->add_action( 'wp_logout', $plugin_public, 'handle_sso_logout' );
 		$this->loader->add_shortcode( 'uoi_sso_button', $plugin_public, 'sso_button_shortcode' );
 	}
 
