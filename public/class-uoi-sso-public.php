@@ -17,7 +17,13 @@ class Uoi_Sso_Public {
 	}
 
 	public function display_sso_button() {
-		$login_url = $this->auth_provider->get_login_url( wp_login_url() );
+		// Generate a CSRF state token and store it in a transient (10 min expiry)
+		$state = wp_generate_password( 32, false );
+		set_transient( 'uoi_sso_state_' . $state, 1, 10 * MINUTE_IN_SECONDS );
+
+		
+		$service_url = add_query_arg( 'uoi_sso_state', $state, wp_login_url() );
+		$login_url = $this->auth_provider->get_login_url( $service_url );
 		include plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/uoi-sso-public-display.php';
 	}
 
@@ -34,7 +40,20 @@ class Uoi_Sso_Public {
 
 		// Check if this is a callback from the provider
 		if ( $this->auth_provider->is_callback() ) {
-			
+
+			// Verify CSRF state token before processing the ticket
+			$state = isset( $_GET['uoi_sso_state'] ) ? sanitize_text_field( $_GET['uoi_sso_state'] ) : '';
+			if ( empty( $state ) || false === get_transient( 'uoi_sso_state_' . $state ) ) {
+				wp_die(
+					__( 'Invalid or expired SSO state. Please try logging in again.', 'uoi-sso' ),
+					__( 'SSO Error', 'uoi-sso' ),
+					array( 'response' => 403, 'back_link' => true )
+				);
+			}
+
+			// Delete the transient
+			delete_transient( 'uoi_sso_state_' . $state );
+
 			$user = $this->auth_provider->authenticate();
 
 			if ( is_wp_error( $user ) ) {
@@ -46,7 +65,7 @@ class Uoi_Sso_Public {
 				wp_set_auth_cookie( $user->ID );
 				do_action( 'wp_login', $user->user_login, $user );
 				
-				// Redirect to home or dashboard
+				// Redirect
 				wp_safe_redirect( home_url() );
 				exit;
 			}
