@@ -47,30 +47,73 @@ class Uoi_Sso_Cas_Provider implements Uoi_Sso_Provider_Interface {
 			return new WP_Error( 'cas_empty_response', __( 'Empty response from CAS server.', 'uoi-sso' ) );
 		}
 
-		// Simple XML parsing for CAS 2.0 response
-		// Success format: <cas:serviceResponse><cas:authenticationSuccess><cas:user>username</cas:user><cas:attributes>...</cas:attributes></cas:authenticationSuccess></cas:serviceResponse>
-		
-		if ( strpos( $body, '<cas:authenticationSuccess>' ) !== false ) {
-			preg_match( '/<cas:user>(.*?)<\/cas:user>/', $body, $matches );
-			if ( ! empty( $matches[1] ) ) {
-				$username = $matches[1];
-				
-				// Parse attributes
-				$attributes = array();
-				if ( preg_match( '/<cas:attributes>(.*?)<\/cas:attributes>/s', $body, $attr_matches ) ) {
-					// This is a very basic XML parser for the flat list of attributes usually returned by CAS
-					// It might need to be more robust for complex XML structures
-					preg_match_all( '/<cas:(.*?)>(.*?)<\/cas:\1>/', $attr_matches[1], $kv_matches, PREG_SET_ORDER );
-					foreach ( $kv_matches as $kv ) {
-						$attributes[ $kv[1] ] = $kv[2];
-					}
-				}
+		return $this->parse_cas_response( $body );
+	}
 
-				return $this->get_or_create_user( $username, $attributes );
+	/**
+	 * Parse a CAS 2.0 XML serviceValidate response using DOMDocument.
+	 *
+	 * @param string $body Raw XML response body.
+	 * @return WP_User|WP_Error
+	 */
+	private function parse_cas_response( $body ) {
+		// Disable external entity loading to prevent XXE attacks
+		$previous_value = libxml_disable_entity_loader( true );
+		$internal_errors = libxml_use_internal_errors( true );
+
+		$doc = new DOMDocument();
+		$loaded = $doc->loadXML( $body, LIBXML_NONET | LIBXML_NOENT );
+
+		// Restore previous libxml settings
+		libxml_disable_entity_loader( $previous_value );
+		libxml_clear_errors();
+		libxml_use_internal_errors( $internal_errors );
+
+		if ( ! $loaded ) {
+			return new WP_Error( 'cas_xml_error', __( 'Failed to parse CAS response XML.', 'uoi-sso' ) );
+		}
+
+		$xpath = new DOMXPath( $doc );
+		$xpath->registerNamespace( 'cas', 'http://www.yale.edu/tp/cas' );
+
+		// Check for authentication failure
+		$failure_nodes = $xpath->query( '//cas:authenticationFailure' );
+		if ( $failure_nodes->length > 0 ) {
+			$code = $failure_nodes->item( 0 )->getAttribute( 'code' );
+			return new WP_Error(
+				'cas_auth_failed',
+				/* translators: %s: CAS failure code */
+				sprintf( __( 'CAS Authentication failed: %s', 'uoi-sso' ), sanitize_text_field( $code ) )
+			);
+		}
+
+		// Check for authentication success
+		$success_nodes = $xpath->query( '//cas:authenticationSuccess' );
+		if ( $success_nodes->length === 0 ) {
+			return new WP_Error( 'cas_auth_failed', __( 'CAS Authentication failed: unexpected response.', 'uoi-sso' ) );
+		}
+
+		// Extract username
+		$user_nodes = $xpath->query( '//cas:authenticationSuccess/cas:user' );
+		if ( $user_nodes->length === 0 || empty( trim( $user_nodes->item( 0 )->textContent ) ) ) {
+			return new WP_Error( 'cas_no_user', __( 'CAS response did not contain a username.', 'uoi-sso' ) );
+		}
+
+		$username = sanitize_user( trim( $user_nodes->item( 0 )->textContent ) );
+
+		// Extract attributes
+		$attributes = array();
+		$attr_nodes = $xpath->query( '//cas:authenticationSuccess/cas:attributes/*' );
+		if ( $attr_nodes->length > 0 ) {
+			foreach ( $attr_nodes as $node ) {
+				// Use local name to strip the namespace prefix
+				$key = $node->localName;
+				$value = sanitize_text_field( $node->textContent );
+				$attributes[ $key ] = $value;
 			}
 		}
 
-		return new WP_Error( 'cas_auth_failed', __( 'CAS Authentication failed.', 'uoi-sso' ) );
+		return $this->get_or_create_user( $username, $attributes );
 	}
 
 	private function get_current_url_without_ticket() {
