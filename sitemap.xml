@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://vrallis.github.io/uoi-sso-wordpress/</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vrallis.github.io/uoi-sso-wordpress/"/>
+        <xhtml:link rel="alternate" hreflang="el" href="https://vrallis.github.io/uoi-sso-wordpress/el/"/>
+    </url>
+    <url>
+        <loc>https://vrallis.github.io/uoi-sso-wordpress/developer-guide/architecture/</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vrallis.github.io/uoi-sso-wordpress/developer-guide/architecture/"/>
+        <xhtml:link rel="alternate" hreflang="el" href="https://vrallis.github.io/uoi-sso-wordpress/el/developer-guide/architecture/"/>
+    </url>
+    <url>
+        <loc>https://vrallis.github.io/uoi-sso-wordpress/developer-guide/hooks/</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vrallis.github.io/uoi-sso-wordpress/developer-guide/hooks/"/>
+        <xhtml:link rel="alternate" hreflang="el" href="https://vrallis.github.io/uoi-sso-wordpress/el/developer-guide/hooks/"/>
+    </url>
+    <url>
+        <loc>https://vrallis.github.io/uoi-sso-wordpress/user-guide/configuration/</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vrallis.github.io/uoi-sso-wordpress/user-guide/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="el" href="https://vrallis.github.io/uoi-sso-wordpress/el/user-guide/configuration/"/>
+    </url>
+    <url>
+        <loc>https://vrallis.github.io/uoi-sso-wordpress/user-guide/customization/</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vrallis.github.io/uoi-sso-wordpress/user-guide/customization/"/>
+        <xhtml:link rel="alternate" hreflang="el" href="https://vrallis.github.io/uoi-sso-wordpress/el/user-guide/customization/"/>
+    </url>
+    <url>
+        <loc>https://vrallis.github.io/uoi-sso-wordpress/user-guide/installation/</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vrallis.github.io/uoi-sso-wordpress/user-guide/installation/"/>
+        <xhtml:link rel="alternate" hreflang="el" href="https://vrallis.github.io/uoi-sso-wordpress/el/user-guide/installation/"/>
+    </url>
+    <url>
+        <loc>https://vrallis.github.io/uoi-sso-wordpress/el/</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="el" href="https://vrallis.github.io/uoi-sso-wordpress/el/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vrallis.github.io/uoi-sso-wordpress/"/>
+    </url>
+    <url>
+        <loc>https://vrallis.github.io/uoi-sso-wordpress/el/developer-guide/architecture/</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="el" href="https://vrallis.github.io/uoi-sso-wordpress/el/developer-guide/architecture/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vrallis.github.io/uoi-sso-wordpress/developer-guide/architecture/"/>
+    </url>
+    <url>
+        <loc>https://vrallis.github.io/uoi-sso-wordpress/el/developer-guide/hooks/</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="el" href="https://vrallis.github.io/uoi-sso-wordpress/el/developer-guide/hooks/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vrallis.github.io/uoi-sso-wordpress/developer-guide/hooks/"/>
+    </url>
+    <url>
+        <loc>https://vrallis.github.io/uoi-sso-wordpress/el/user-guide/configuration/</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="el" href="https://vrallis.github.io/uoi-sso-wordpress/el/user-guide/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vrallis.github.io/uoi-sso-wordpress/user-guide/configuration/"/>
+    </url>
+    <url>
+        <loc>https://vrallis.github.io/uoi-sso-wordpress/el/user-guide/customization/</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="el" href="https://vrallis.github.io/uoi-sso-wordpress/el/user-guide/customization/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vrallis.github.io/uoi-sso-wordpress/user-guide/customization/"/>
+    </url>
+    <url>
+        <loc>https://vrallis.github.io/uoi-sso-wordpress/el/user-guide/installation/</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="el" href="https://vrallis.github.io/uoi-sso-wordpress/el/user-guide/installation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://vrallis.github.io/uoi-sso-wordpress/user-guide/installation/"/>
+    </url>
+</urlset>
