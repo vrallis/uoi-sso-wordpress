@@ -31,13 +31,13 @@ class Uoi_Sso_Public {
 	public function enqueue_login_assets() {
 		wp_enqueue_style(
 			$this->plugin_name,
-			plugin_dir_url( dirname( __FILE__ ) ) . 'public/css/uoi-sso-public.css',
+			UOI_SSO_PLUGIN_URL . 'public/css/uoi-sso-public.css',
 			array(),
 			$this->version
 		);
 		wp_enqueue_script(
 			$this->plugin_name,
-			plugin_dir_url( dirname( __FILE__ ) ) . 'public/js/uoi-sso-public.js',
+			UOI_SSO_PLUGIN_URL . 'public/js/uoi-sso-public.js',
 			array(),
 			$this->version,
 			true
@@ -54,7 +54,7 @@ class Uoi_Sso_Public {
 
 		$service_url = add_query_arg( 'uoi_sso_state', $state, wp_login_url() );
 		$login_url = $this->auth_provider->get_login_url( $service_url );
-		include plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/uoi-sso-public-display.php';
+		include UOI_SSO_PLUGIN_DIR . 'public/partials/uoi-sso-public-display.php';
 	}
 
 	public function sso_button_shortcode() {
@@ -107,7 +107,11 @@ class Uoi_Sso_Public {
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 					error_log( '[UOI SSO] [ERROR] SSO authentication failed: ' . $user->get_error_message() );
 				}
-				wp_die( $user->get_error_message(), 'SSO Error' );
+				wp_die(
+					__( 'Authentication failed. Please try again or contact the administrator.', 'uoi-sso' ),
+					__( 'SSO Error', 'uoi-sso' ),
+					array( 'response' => 403, 'back_link' => true )
+				);
 			}
 
 			if ( $user instanceof WP_User ) {

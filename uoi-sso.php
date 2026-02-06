@@ -24,10 +24,25 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'UOI_SSO_VERSION', '1.0.3' );
 
 /**
+ * Plugin filesystem path (with trailing slash).
+ */
+define( 'UOI_SSO_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+
+/**
+ * Plugin URL (with trailing slash).
+ */
+define( 'UOI_SSO_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+
+/**
+ * Plugin main file path.
+ */
+define( 'UOI_SSO_PLUGIN_FILE', __FILE__ );
+
+/**
  * The code that runs during plugin activation.
  */
 function activate_uoi_sso() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-uoi-sso-activator.php';
+	require_once UOI_SSO_PLUGIN_DIR . 'includes/class-uoi-sso-activator.php';
 	Uoi_Sso_Activator::activate();
 }
 
@@ -35,7 +50,7 @@ function activate_uoi_sso() {
  * The code that runs during plugin deactivation.
  */
 function deactivate_uoi_sso() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-uoi-sso-deactivator.php';
+	require_once UOI_SSO_PLUGIN_DIR . 'includes/class-uoi-sso-deactivator.php';
 	Uoi_Sso_Deactivator::deactivate();
 }
 
@@ -46,7 +61,7 @@ register_deactivation_hook( __FILE__, 'deactivate_uoi_sso' );
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-uoi-sso.php';
+require UOI_SSO_PLUGIN_DIR . 'includes/class-uoi-sso.php';
 
 /**
  * Begins execution of the plugin.

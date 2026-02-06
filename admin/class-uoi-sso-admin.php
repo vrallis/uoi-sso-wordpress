@@ -24,7 +24,10 @@ class Uoi_Sso_Admin {
 	}
 
 	public function display_plugin_setup_page() {
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/uoi-sso-admin-display.php';
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		require_once UOI_SSO_PLUGIN_DIR . 'admin/partials/uoi-sso-admin-display.php';
 	}
 
 	public function register_settings() {

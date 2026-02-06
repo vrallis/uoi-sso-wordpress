@@ -24,14 +24,14 @@ class Uoi_Sso {
 	}
 
 	private function load_dependencies() {
-		require_once plugin_dir_path( __FILE__ ) . 'class-uoi-sso-loader.php';
-		require_once plugin_dir_path( __FILE__ ) . 'class-uoi-sso-i18n.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-uoi-sso-admin.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-uoi-sso-public.php';
+		require_once UOI_SSO_PLUGIN_DIR . 'includes/class-uoi-sso-loader.php';
+		require_once UOI_SSO_PLUGIN_DIR . 'includes/class-uoi-sso-i18n.php';
+		require_once UOI_SSO_PLUGIN_DIR . 'admin/class-uoi-sso-admin.php';
+		require_once UOI_SSO_PLUGIN_DIR . 'public/class-uoi-sso-public.php';
 		
 		// Auth Providers
-		require_once plugin_dir_path( __FILE__ ) . 'interface-uoi-sso-provider.php';
-		require_once plugin_dir_path( __FILE__ ) . 'class-uoi-sso-cas-provider.php';
+		require_once UOI_SSO_PLUGIN_DIR . 'includes/interface-uoi-sso-provider.php';
+		require_once UOI_SSO_PLUGIN_DIR . 'includes/class-uoi-sso-cas-provider.php';
 
 		$this->loader = new Uoi_Sso_Loader();
 	}

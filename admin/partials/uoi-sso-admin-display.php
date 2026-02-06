@@ -2,11 +2,11 @@
 	<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 	
 	<div class="card" style="max-width: 100%; margin-top: 20px;">
-		<h2><?php _e( 'Plugin Status', 'uoi-sso' ); ?></h2>
+		<h2><?php esc_html_e( 'Plugin Status', 'uoi-sso' ); ?></h2>
 		<p>
-			<strong><?php _e( 'Version:', 'uoi-sso' ); ?></strong> <?php echo UOI_SSO_VERSION; ?><br>
-			<strong><?php _e( 'PHP Version:', 'uoi-sso' ); ?></strong> <?php echo phpversion(); ?><br>
-			<strong><?php _e( 'CAS Server:', 'uoi-sso' ); ?></strong> <?php echo esc_html( get_option( 'uoi_sso_cas_url' ) ); ?>
+			<strong><?php esc_html_e( 'Version:', 'uoi-sso' ); ?></strong> <?php echo esc_html( UOI_SSO_VERSION ); ?><br>
+			<strong><?php esc_html_e( 'PHP Version:', 'uoi-sso' ); ?></strong> <?php echo esc_html( phpversion() ); ?><br>
+			<strong><?php esc_html_e( 'CAS Server:', 'uoi-sso' ); ?></strong> <?php echo esc_html( get_option( 'uoi_sso_cas_url' ) ); ?>
 		</p>
 	</div>
 
@@ -17,55 +17,63 @@
 		?>
 		<table class="form-table">
 			<tr valign="top">
-				<th scope="row"><?php _e( 'CAS Server URL', 'uoi-sso' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'CAS Server URL', 'uoi-sso' ); ?></th>
 				<td><input type="text" name="uoi_sso_cas_url" value="<?php echo esc_attr( get_option( 'uoi_sso_cas_url' ) ); ?>" class="regular-text" /></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e( 'CAS Server Port', 'uoi-sso' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'CAS Server Port', 'uoi-sso' ); ?></th>
 				<td><input type="number" name="uoi_sso_cas_port" value="<?php echo esc_attr( get_option( 'uoi_sso_cas_port' ) ); ?>" class="small-text" /></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e( 'CAS Context', 'uoi-sso' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'CAS Context', 'uoi-sso' ); ?></th>
 				<td><input type="text" name="uoi_sso_cas_context" value="<?php echo esc_attr( get_option( 'uoi_sso_cas_context' ) ); ?>" class="regular-text" /></td>
 			</tr>
 		</table>
 
 		<hr>
 
-		<h2><?php _e( 'Attribute Mapping', 'uoi-sso' ); ?></h2>
-		<p class="description"><?php _e( 'Map CAS attributes to WordPress user fields. Change these if the SSO provider attributes change.', 'uoi-sso' ); ?></p>
+		<h2><?php esc_html_e( 'Attribute Mapping', 'uoi-sso' ); ?></h2>
+		<p class="description"><?php esc_html_e( 'Map CAS attributes to WordPress user fields. Change these if the SSO provider attributes change.', 'uoi-sso' ); ?></p>
 		<table class="form-table">
 			<tr valign="top">
-				<th scope="row"><?php _e( 'First Name Attribute', 'uoi-sso' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'First Name Attribute', 'uoi-sso' ); ?></th>
 				<td><input type="text" name="uoi_sso_attr_firstname" value="<?php echo esc_attr( get_option( 'uoi_sso_attr_firstname' ) ); ?>" class="regular-text" /></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e( 'Last Name Attribute', 'uoi-sso' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Last Name Attribute', 'uoi-sso' ); ?></th>
 				<td><input type="text" name="uoi_sso_attr_lastname" value="<?php echo esc_attr( get_option( 'uoi_sso_attr_lastname' ) ); ?>" class="regular-text" /></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e( 'Email Attribute', 'uoi-sso' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Email Attribute', 'uoi-sso' ); ?></th>
 				<td><input type="text" name="uoi_sso_attr_email" value="<?php echo esc_attr( get_option( 'uoi_sso_attr_email' ) ); ?>" class="regular-text" /></td>
 			</tr>
 		</table>
 
 		<hr>
 
-		<h2><?php _e( 'Role Mapping', 'uoi-sso' ); ?></h2>
-		<p class="description"><?php _e( 'Map CAS role values to WordPress roles. Format: <code>cas_value:wp_role</code> (one per line).', 'uoi-sso' ); ?></p>
+		<h2><?php esc_html_e( 'Role Mapping', 'uoi-sso' ); ?></h2>
+		<p class="description">
+			<?php
+			printf(
+				/* translators: %s: code example of the format */
+				esc_html__( 'Map CAS role values to WordPress roles. Format: %s (one per line).', 'uoi-sso' ),
+				'<code>cas_value:wp_role</code>'
+			);
+			?>
+		</p>
 		<table class="form-table">
 			<tr valign="top">
-				<th scope="row"><?php _e( 'Role Attribute', 'uoi-sso' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Role Attribute', 'uoi-sso' ); ?></th>
 				<td>
 					<input type="text" name="uoi_sso_attr_role" value="<?php echo esc_attr( get_option( 'uoi_sso_attr_role' ) ); ?>" class="regular-text" />
-					<p class="description"><?php _e( 'The CAS attribute that contains the user role (e.g., eduPersonAffiliation).', 'uoi-sso' ); ?></p>
+					<p class="description"><?php esc_html_e( 'The CAS attribute that contains the user role (e.g., eduPersonAffiliation).', 'uoi-sso' ); ?></p>
 				</td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e( 'Mapping Rules', 'uoi-sso' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Mapping Rules', 'uoi-sso' ); ?></th>
 				<td>
 					<textarea name="uoi_sso_role_mapping" rows="5" cols="50" class="large-text code"><?php echo esc_textarea( get_option( 'uoi_sso_role_mapping' ) ); ?></textarea>
-					<p class="description"><?php _e( 'Example:', 'uoi-sso' ); ?><br>student:subscriber<br>teacher:editor</p>
+					<p class="description"><?php esc_html_e( 'Example:', 'uoi-sso' ); ?><br>student:subscriber<br>teacher:editor</p>
 				</td>
 			</tr>
 		</table>
