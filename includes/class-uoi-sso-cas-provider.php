@@ -9,6 +9,18 @@ class Uoi_Sso_Cas_Provider implements Uoi_Sso_Provider_Interface {
 	private $cas_port;
 	private $cas_context;
 
+	/**
+	 * Log a message to the WordPress debug log.
+	 *
+	 * @param string $message Log message.
+	 * @param string $level   'error', 'warning', or 'info'.
+	 */
+	private static function log( $message, $level = 'error' ) {
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log( sprintf( '[UOI SSO] [%s] %s', strtoupper( $level ), $message ) );
+		}
+	}
+
 	public function __construct() {
 		$this->cas_url = get_option( 'uoi_sso_cas_url', 'sso.uoi.gr' );
 		$this->cas_port = get_option( 'uoi_sso_cas_port', 443 );
@@ -38,6 +50,7 @@ class Uoi_Sso_Cas_Provider implements Uoi_Sso_Provider_Interface {
 
 		$ticket_hash = 'uoi_sso_ticket_' . hash( 'sha256', $ticket );
 		if ( false !== get_transient( $ticket_hash ) ) {
+			self::log( 'Ticket replay attempt detected.' );
 			return new WP_Error( 'cas_ticket_replayed', __( 'This SSO ticket has already been used.', 'uoi-sso' ) );
 		}
 		set_transient( $ticket_hash, 1, 5 * MINUTE_IN_SECONDS );
@@ -52,11 +65,13 @@ class Uoi_Sso_Cas_Provider implements Uoi_Sso_Provider_Interface {
 		) );
 
 		if ( is_wp_error( $response ) ) {
+			self::log( 'CAS validation HTTP error: ' . $response->get_error_message() );
 			return $response;
 		}
 
 		$status_code = wp_remote_retrieve_response_code( $response );
 		if ( $status_code !== 200 ) {
+			self::log( sprintf( 'CAS server returned HTTP %d.', $status_code ) );
 			return new WP_Error(
 				'cas_http_error',
 				sprintf(
@@ -69,6 +84,7 @@ class Uoi_Sso_Cas_Provider implements Uoi_Sso_Provider_Interface {
 		$body = wp_remote_retrieve_body( $response );
 
 		if ( empty( $body ) ) {
+			self::log( 'Empty response body from CAS server.' );
 			return new WP_Error( 'cas_empty_response', __( 'Empty response from CAS server.', 'uoi-sso' ) );
 		}
 
@@ -95,6 +111,7 @@ class Uoi_Sso_Cas_Provider implements Uoi_Sso_Provider_Interface {
 		libxml_use_internal_errors( $internal_errors );
 
 		if ( ! $loaded ) {
+			self::log( 'Failed to parse CAS XML response.' );
 			return new WP_Error( 'cas_xml_error', __( 'Failed to parse CAS response XML.', 'uoi-sso' ) );
 		}
 
@@ -105,6 +122,7 @@ class Uoi_Sso_Cas_Provider implements Uoi_Sso_Provider_Interface {
 		$failure_nodes = $xpath->query( '//cas:authenticationFailure' );
 		if ( $failure_nodes->length > 0 ) {
 			$code = $failure_nodes->item( 0 )->getAttribute( 'code' );
+			self::log( sprintf( 'CAS authentication failure, code: %s', $code ) );
 			return new WP_Error(
 				'cas_auth_failed',
 				/* translators: %s: CAS failure code */
@@ -115,16 +133,19 @@ class Uoi_Sso_Cas_Provider implements Uoi_Sso_Provider_Interface {
 		// Check for authentication success
 		$success_nodes = $xpath->query( '//cas:authenticationSuccess' );
 		if ( $success_nodes->length === 0 ) {
+			self::log( 'CAS response contained neither success nor failure element.' );
 			return new WP_Error( 'cas_auth_failed', __( 'CAS Authentication failed: unexpected response.', 'uoi-sso' ) );
 		}
 
 		// Extract username
 		$user_nodes = $xpath->query( '//cas:authenticationSuccess/cas:user' );
 		if ( $user_nodes->length === 0 || empty( trim( $user_nodes->item( 0 )->textContent ) ) ) {
+			self::log( 'CAS response did not contain a username.' );
 			return new WP_Error( 'cas_no_user', __( 'CAS response did not contain a username.', 'uoi-sso' ) );
 		}
 
 		$username = sanitize_user( trim( $user_nodes->item( 0 )->textContent ) );
+		self::log( sprintf( 'CAS authentication successful for user: %s', $username ), 'info' );
 
 		// Extract attributes
 		$attributes = array();
@@ -186,6 +207,7 @@ class Uoi_Sso_Cas_Provider implements Uoi_Sso_Provider_Interface {
 
 		if ( $user ) {
 			// User found by username — this is the authoritative match for SSO
+			self::log( sprintf( 'Existing user found: %s (ID: %d)', $username, $user->ID ), 'info' );
 			$userdata = array(
 				'ID'         => $user->ID,
 				'first_name' => $first_name,
@@ -213,6 +235,7 @@ class Uoi_Sso_Cas_Provider implements Uoi_Sso_Provider_Interface {
 			$email_owner = get_user_by( 'email', $email );
 			if ( $email_owner ) {
 				// Email belongs to a different WP user
+				self::log( sprintf( 'Email conflict: CAS user %s has email %s which belongs to WP user ID %d.', $username, $email, $email_owner->ID ) );
 				return new WP_Error(
 					'cas_email_conflict',
 					sprintf(
@@ -237,9 +260,11 @@ class Uoi_Sso_Cas_Provider implements Uoi_Sso_Provider_Interface {
 		$user_id = wp_insert_user( $userdata );
 
 		if ( is_wp_error( $user_id ) ) {
+			self::log( sprintf( 'Failed to create user %s: %s', $username, $user_id->get_error_message() ) );
 			return $user_id;
 		}
 
+		self::log( sprintf( 'Auto-provisioned new user: %s (ID: %d)', $username, $user_id ), 'info' );
 		return get_user_by( 'id', $user_id );
 	}
 }

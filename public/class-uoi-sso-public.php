@@ -12,8 +12,17 @@ class Uoi_Sso_Public {
 	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-		// Initialize the provider (Currently CAS, but could be dynamic later)
-		$this->auth_provider = new Uoi_Sso_Cas_Provider();
+
+		/**
+		 * Filter the SSO auth provider instance.
+		 *
+		 * Allows developers to replace the default CAS provider with a custom
+		 * implementation (e.g., SAML) by returning an object that implements
+		 * Uoi_Sso_Provider_Interface.
+		 *
+		 * @param Uoi_Sso_Provider_Interface $provider The auth provider instance.
+		 */
+		$this->auth_provider = apply_filters( 'uoi_sso_auth_provider', new Uoi_Sso_Cas_Provider() );
 	}
 
 	/**
@@ -78,6 +87,9 @@ class Uoi_Sso_Public {
 			$state = isset( $_GET['uoi_sso_state'] ) ? sanitize_text_field( $_GET['uoi_sso_state'] ) : '';
 			$state_value = get_transient( 'uoi_sso_state_' . $state );
 			if ( empty( $state ) || false === $state_value ) {
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					error_log( '[UOI SSO] [ERROR] Invalid or expired SSO state token on callback.' );
+				}
 				wp_die(
 					__( 'Invalid or expired SSO state. Please try logging in again.', 'uoi-sso' ),
 					__( 'SSO Error', 'uoi-sso' ),
@@ -92,6 +104,9 @@ class Uoi_Sso_Public {
 			$user = $this->auth_provider->authenticate();
 
 			if ( is_wp_error( $user ) ) {
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					error_log( '[UOI SSO] [ERROR] SSO authentication failed: ' . $user->get_error_message() );
+				}
 				wp_die( $user->get_error_message(), 'SSO Error' );
 			}
 
