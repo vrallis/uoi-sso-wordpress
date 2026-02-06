@@ -38,9 +38,11 @@ class Uoi_Sso_Public {
 	public function display_sso_button() {
 		// Generate a CSRF state token and store it in a transient (10 min expiry)
 		$state = wp_generate_password( 32, false );
-		set_transient( 'uoi_sso_state_' . $state, 1, 10 * MINUTE_IN_SECONDS );
 
-		
+		// Capture redirect_to
+		$redirect_to = isset( $_REQUEST['redirect_to'] ) ? esc_url_raw( $_REQUEST['redirect_to'] ) : '';
+		set_transient( 'uoi_sso_state_' . $state, $redirect_to, 10 * MINUTE_IN_SECONDS );
+
 		$service_url = add_query_arg( 'uoi_sso_state', $state, wp_login_url() );
 		$login_url = $this->auth_provider->get_login_url( $service_url );
 		include plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/uoi-sso-public-display.php';
@@ -74,7 +76,8 @@ class Uoi_Sso_Public {
 
 			// Verify CSRF state token before processing the ticket
 			$state = isset( $_GET['uoi_sso_state'] ) ? sanitize_text_field( $_GET['uoi_sso_state'] ) : '';
-			if ( empty( $state ) || false === get_transient( 'uoi_sso_state_' . $state ) ) {
+			$state_value = get_transient( 'uoi_sso_state_' . $state );
+			if ( empty( $state ) || false === $state_value ) {
 				wp_die(
 					__( 'Invalid or expired SSO state. Please try logging in again.', 'uoi-sso' ),
 					__( 'SSO Error', 'uoi-sso' ),
@@ -82,7 +85,8 @@ class Uoi_Sso_Public {
 				);
 			}
 
-			// Delete the transient
+			// Retrieve redirect_to from state and delete the transient (single use)
+			$redirect_to = ! empty( $state_value ) ? esc_url_raw( $state_value ) : '';
 			delete_transient( 'uoi_sso_state_' . $state );
 
 			$user = $this->auth_provider->authenticate();
@@ -95,9 +99,10 @@ class Uoi_Sso_Public {
 				wp_set_current_user( $user->ID, $user->user_login );
 				wp_set_auth_cookie( $user->ID );
 				do_action( 'wp_login', $user->user_login, $user );
-				
-				// Redirect
-				wp_safe_redirect( home_url() );
+
+				// Redirect to the original destination, or fall back to home
+				$redirect_url = ! empty( $redirect_to ) ? $redirect_to : home_url();
+				wp_safe_redirect( $redirect_url );
 				exit;
 			}
 		}

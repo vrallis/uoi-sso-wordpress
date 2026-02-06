@@ -42,7 +42,6 @@ class Uoi_Sso_Cas_Provider implements Uoi_Sso_Provider_Interface {
 		}
 		set_transient( $ticket_hash, 1, 5 * MINUTE_IN_SECONDS );
 
-		// Clean the service URL to remove the ticket parameter for validation
 		$service_url = $this->get_current_url_without_ticket();
 
 		$validation_url = "https://{$this->cas_url}:{$this->cas_port}{$this->cas_context}/serviceValidate?service=" . urlencode( $service_url ) . "&ticket=" . $ticket;
